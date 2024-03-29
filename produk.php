@@ -9,7 +9,7 @@
 		$queryGetKategoriId = mysqli_query($con, "SELECT id FROM kategori WHERE nama='$_GET[kategori]'");
 		$kategoriId = mysqli_fetch_array($queryGetKategoriId);
 		
-		$queryProduk = mysqli_query($con, "SELECT * FROM produk WHERE kategori_id='$kategoriId[p]'");
+		$queryProduk = mysqli_query($con, "SELECT * FROM produk WHERE kategori_id='$kategoriId[id]'");
 	} else {
 		$queryProduk = mysqli_query($con, "SELECT * FROM produk");
 	}
