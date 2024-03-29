@@ -1,0 +1,65 @@
+* kodingan ini tidak sama persis dengan yang ada di playlist cara fajar (https://www.youtube.com/watch?v=ADjbxTNT7l4&list=PLnrs9DcLyeJQUKFSEoP98tSaZitjixQp2)
+
+gunakan ini untuk field password di database --> $2y$10$Exfrc4aI7tu0Zoq7MRkFMu6zwVMRbSZ63anHW6iHNl7aAwEjjvSwm
+(ketik "rahasia" sebagai passwordny di adminpanel/login.php)
+
+nama database mohon diubah dari toko_localhost sehingga sesuai dengan nama database yg dipake (di koneksi.php)
+
+jika folder bootstrap atau fontawesome kosong bisa didownload di sini:
+https://getbootstrap.com/docs/5.1/getting-started/download/
+https://fontawesome.com/start
+
+jangan lupa juga ganti nama di index.php, css/style.css, dan nama-nama gambar di folder image agar sama dengan yang di database (atau gak sesuaiin databaseny)
+
+struktur database:
+	kategori:
+		+-------+--------------+------+-----+---------+----------------+
+		| Field | Type         | Null | Key | Default | Extra          |
+		+-------+--------------+------+-----+---------+----------------+
+		| id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+		| nama  | varchar(100) | NO   |     | NULL    |                |
+		+-------+--------------+------+-----+---------+----------------+
+		query: CREATE TABLE kategori(
+			id int AUTO_INCREMENT PRIMARY KEY,
+			nama varchar(100) NOT NULL
+		)
+
+	produk:
+		+-------------------+--------------------------+------+-----+----------+----------------+
+		| Field             | Type                     | Null | Key | Default  | Extra          |
+		+-------------------+--------------------------+------+-----+----------+----------------+
+		| id                | int(11)                  | NO   | PRI | NULL     | auto_increment |
+		| kategori_id       | int(11)                  | NO   | MUL | NULL     |                |
+		| nama              | varchar(255)             | NO   | MUL | NULL     |                |
+		| harga             | double                   | NO   |     | NULL     |                |
+		| foto              | varchar(255)             | YES  |     | NULL     |                |
+		| detail            | text                     | YES  |     | NULL     |                |
+		| ketersediaan_stok | enum('habis','tersedia') | YES  |     | tersedia |                |
+		+-------------------+--------------------------+------+-----+----------+----------------+
+		query: CREATE TABLE produk(
+			id int AUTO_INCREMENT PRIMARY KEY,
+			kategori_id int NOT NULL,
+			nama varchar(255) NOT NULL,
+			harga double NOT NULL,
+			foto varchar(255) null,
+			detail text,
+			ketersediaan_stok enum('habis', 'tersedia') DEFAULT 'tersedia',
+			INDEX (nama),
+			CONSTRAINT kategori_produk
+			FOREIGN KEY (kategori_id) REFERENCES kategori(id)
+			ON DELETE RESTRICT
+		)
+
+	users:
+		+----------+--------------+------+-----+---------+----------------+
+		| Field    | Type         | Null | Key | Default | Extra          |
+		+----------+--------------+------+-----+---------+----------------+
+		| id       | int(11)      | NO   | PRI | NULL    | auto_increment |
+		| username | varchar(20)  | YES  |     | NULL    |                |
+		| password | varchar(255) | YES  |     | NULL    |                |
+		+----------+--------------+------+-----+---------+----------------+
+		query: CREATE TABLE users(
+			id int AUTO_INCREMENT PRIMARY KEY,
+			username varchar(50),
+			password varchar(255)
+		)
